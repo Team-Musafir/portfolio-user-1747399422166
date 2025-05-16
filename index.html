@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= parsedData.name %> | Resume</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #3498db;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        .contact-info {
+            margin: 15px 0;
+        }
+        .contact-info div {
+            margin: 5px 0;
+        }
+        .section {
+            margin-bottom: 25px;
+        }
+        .item {
+            margin-bottom: 15px;
+        }
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+        }
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .skill {
+            background: #3498db;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <h1><%= parsedData.name %></h1>
+    
+    <% if (parsedData.jobRole) { %>
+    <h2><%= parsedData.jobRole %></h2>
+    <% } %>
+    
+    <div class="contact-info">
+        <% if (parsedData.email) { %>
+        <div>Email: <%= parsedData.email %></div>
+        <% } %>
+        <% if (parsedData.phone) { %>
+        <div>Phone: <%= parsedData.phone %></div>
+        <% } %>
+        <% if (parsedData.socialLinks) { %>
+            <% if (parsedData.socialLinks.linkedin) { %>
+            <div>LinkedIn: <%= parsedData.socialLinks.linkedin %></div>
+            <% } %>
+            <% if (parsedData.socialLinks.github) { %>
+            <div>GitHub: <%= parsedData.socialLinks.github %></div>
+            <% } %>
+        <% } %>
+    </div>
+
+    <% if (parsedData.about) { %>
+    <div class="section">
+        <h2>About</h2>
+        <p><%= parsedData.about %></p>
+    </div>
+    <% } %>
+
+    <% if (parsedData.skills && parsedData.skills.length) { %>
+    <div class="section">
+        <h2>Skills</h2>
+        <div class="skills-container">
+            <% parsedData.skills.forEach(skill => { %>
+            <span class="skill"><%= skill %></span>
+            <% }); %>
+        </div>
+    </div>
+    <% } %>
+
+    <% if (parsedData.experience && parsedData.experience.length) { %>
+    <div class="section">
+        <h2>Experience</h2>
+        <% parsedData.experience.forEach(exp => { %>
+        <div class="item">
+            <div class="item-header">
+                <span><%= exp.company %> - <%= exp.position %></span>
+                <span><%= exp.startDate %> - <%= exp.endDate || 'Present' %></span>
+            </div>
+            <% if (exp.description) { %>
+            <p><%= exp.description %></p>
+            <% } %>
+        </div>
+        <% }); %>
+    </div>
+    <% } %>
+
+    <% if (parsedData.education && parsedData.education.length) { %>
+    <div class="section">
+        <h2>Education</h2>
+        <% parsedData.education.forEach(edu => { %>
+        <div class="item">
+            <div class="item-header">
+                <span><%= edu.institution %></span>
+                <span><%= edu.startDate %> - <%= edu.endDate %></span>
+            </div>
+            <p><%= edu.degree %> in <%= edu.field %></p>
+        </div>
+        <% }); %>
+    </div>
+    <% } %>
+
+    <% if (parsedData.projects && parsedData.projects.length) { %>
+    <div class="section">
+        <h2>Projects</h2>
+        <% parsedData.projects.forEach(project => { %>
+        <div class="item">
+            <h3><%= project.name %></h3>
+            <% if (project.description) { %>
+            <p><%= project.description %></p>
+            <% } %>
+            <% if (project.technologies && project.technologies.length) { %>
+            <div class="skills-container">
+                <% project.technologies.forEach(tech => { %>
+                <span class="skill"><%= tech %></span>
+                <% }); %>
+            </div>
+            <% } %>
+        </div>
+        <% }); %>
+    </div>
+    <% } %>
+</body>
+</html>
